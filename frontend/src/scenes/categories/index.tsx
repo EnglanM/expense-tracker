@@ -1,0 +1,1 @@
+export { CategoryManger } from './components/category-manager';
