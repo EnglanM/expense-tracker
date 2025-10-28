@@ -1,0 +1,13 @@
+{
+  "name": "expense-tracker",
+  "private": true,
+  "scripts": {
+    "prepare": "husky",
+    "frontend:dev": "cd frontend && npm run dev",
+    "frontend:build": "cd frontend && npm run build",
+    "backend:dev": "cd backend && npm run dev"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}
