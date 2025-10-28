@@ -9,6 +9,7 @@ A full-stack expense tracking application built with React, TypeScript, Node.js,
 - 📊 View expenses grouped by category
 - 💰 Track total spending across all expenses
 - 🗑️ Delete expenses and categories (with cascade deletion)
+- 📧 Email notifications when spending reaches threshold
 - 🎨 Modern, responsive UI with Tailwind CSS
 
 ## 🛠️ Tech Stack
@@ -26,6 +27,7 @@ A full-stack expense tracking application built with React, TypeScript, Node.js,
 - **Express 5** - Web framework
 - **MongoDB Atlas** - Database
 - **Mongoose** - ODM for MongoDB
+- **nodemailer** - Email service (Gmail SMTP)
 
 ## 📁 Project Structure
 
@@ -54,14 +56,15 @@ expense-tracker/
 
 - Node.js (v18+)
 - MongoDB Atlas account
-- npm or yarn
+- npm
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/EnglanM/expense-tracker.git
    cd expense-tracker
+   nvm use (if you have nvm installed in your machine, if not either install nvm or use node version v23.6.1)
    ```
 
 2. **Set up the backend**
@@ -73,7 +76,7 @@ expense-tracker/
 3. **Set up the frontend**
    ```bash
    cd ../frontend
-   npm приведено
+   npm install
    ```
 
 ### Configuration
@@ -84,7 +87,16 @@ expense-tracker/
    ```env
    PORT=5000
    MONGO_URI=your_mongodb_atlas_connection_string
+   GMAIL_USER=your_email@gmail.com
+   GMAIL_APP_PASSWORD=your_generated_app_password
    ```
+
+   **📧 Email Service Setup (Gmail SMTP)**
+   
+   To enable email notifications:
+   1. Enable **2-Step Verification** in your Google account
+   2. Go to [App Passwords](https://myaccount.google.com/apppasswords) → generate a new password for "Mail"
+   3. Add the credentials to your `.env` file as shown above
 
 2. **Frontend Environment Variables**
    
@@ -127,6 +139,9 @@ npm run frontend:dev
 - `POST /api/expenses` - Create an expense
 - `DELETE /api/expenses/:id` - Delete an expense
 
+### Email
+- `POST /api/email` - Send an email to alert the user 
+
 ## 🏗️ Architecture
 
 ### Frontend
@@ -142,6 +157,7 @@ npm run frontend:dev
 - **Models** - Database schemas
 - **Config** - Configuration files
 
+
 ## 🎯 Key Features Implementation
 
 - **Cascade Deletion**: When a category is deleted, all associated expenses are automatically removed
@@ -149,14 +165,39 @@ npm run frontend:dev
 - **Type Safety**: Full TypeScript support across frontend and backend
 - **Responsive Design**: Mobile-first approach with Tailwind CSS
 
-## 🚧 Future Enhancements
 
-- Budget alerts and notifications
-- Expense filtering and search
-- Date range filtering
-- Export to CSV/PDF
-- User authentication
-- Charts and analytics
+## Decisions Made
+
+### Technology Stack
+- **React 19 + TypeScript**: Chose the latest React version with TypeScript for type safety and better developer experience
+- **Express 5**: Used Express 5 for the backend to leverage the latest features and performance improvements
+- **MongoDB Atlas**: Selected cloud-based MongoDB for easy setup and scalability without local database management
+- **Vite**: Chose Vite over Create React App for faster development builds and better DX
+- **Tailwind CSS**: Selected for rapid UI development and consistent styling
+
+### Architecture Decisions
+- **Separate Frontend/Backend**: Maintained a clean separation of concerns with independent frontend and backend applications
+- **Scene-based Organization**: Organized frontend code into "scenes" (page-level components) and reusable components for better code structure
+- **Service Layer Pattern**: Created dedicated service files for API communication to keep components clean and maintainable
+
+- **MongoDB Population**: Used Mongoose population to retrieve full category details with expenses for efficient data fetching
+
+### Development Tools
+- **Husky**: Integrated Husky for managing Git hooks to ensure code quality
+- **Gmail SMTP**: Chose Gmail SMTP for email notifications as it's free and easy to set up with app passwords
+- **Vite**: Nice build tool and development server, even suggested in the official React website
+
+## ⏱️ Time Spent
+
+Estimated total development time: arond 4 hours, I lost a bit of time redoing the email service, but it was time well spent, also the deployment and the video is outside this timeline.
+
+## 🚧 Challenges Faced
+
+1. **Email Service Configuration**: Setting up Gmail SMTP with app passwords required understanding Google's 2-factor authentication and app password generation process.
+
+2. **Type Safety**: Trying to maintaining proper TypeScript types between frontend and backend
+
+3. **Tailwind v4.0**: Using Tailwind with Postcss
 
 
 ## 👨‍💻 Author
