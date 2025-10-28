@@ -1,11 +1,11 @@
-import { resendClient } from "../config/email-service.js";
+import { emailTransporter } from "../config/email-service.js";
 
 export const sendEmailNotification = async (req, res) => {
     try {
         const { email, totalAmount, thresholdAmount } = req.body;
         
-        await resendClient.emails.send({
-            from: 'englanmuca@gmail.com',
+        const mailOptions = {
+            from: process.env.GMAIL_USER,
             to: email,
             subject: 'Budget Alert: Threshold Reached!',
             html: `
@@ -15,9 +15,11 @@ export const sendEmailNotification = async (req, res) => {
                 <p><strong>Threshold:</strong> $${thresholdAmount.toFixed(2)}</p>
                 <p>Please review your expenses.</p>
             `
-        });
+        };
         
-        res.status(200).json({ ok: true, message: 'Email sent successfully' });
+        const result = await emailTransporter.sendMail(mailOptions);
+        
+        res.status(200).json({ ok: true, message: 'Email sent successfully', result: result });
     } catch (error) {
         console.error('Email sending failed:', error);
         res.status(500).json({ ok: false, error: error.message });
