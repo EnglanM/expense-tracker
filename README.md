@@ -191,6 +191,19 @@ npm run frontend:dev
 
 Estimated total development time: arond 4 hours, I lost a bit of time redoing the email service, but it was time well spent, also the deployment and the video is outside this timeline.
 
+## 🚀 Deployment
+
+This app is deployed with free-tier services to keep it always available without cold-start delays:
+
+- Frontend: Vercel
+- Backend: Vercel (see caveats below) / previously Render for testing
+
+Notes and trade-offs:
+
+- Vercel for backend: Not the best choice for a traditional Express server because Vercel prefers serverless/edge handlers instead of long-running `app.listen`. To make it work, you typically export the Express `app` instead of calling `app.listen`. This can lead to occasional CORS-related quirks depending on how the serverless function is wrapped and routed.
+- Render (Free): Worked perfectly for an always-on Express server workflow, but the free tier sleeps after ~15 minutes of inactivity. Cold starts can take a couple of minutes, which creates a poor user experience.
+- If I had more time and resources: I would containerize the app with Docker and deploy to an always-on environment like AWS EC2 or a DigitalOcean Droplet for full control and zero cold starts.
+
 ## 🚧 Challenges Faced
 
 1. **Email Service Configuration**: Setting up Gmail SMTP with app passwords required understanding Google's 2-factor authentication and app password generation process.
